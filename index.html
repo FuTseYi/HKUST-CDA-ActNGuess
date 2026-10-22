@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="港科广职协 · 你比我猜。上传自己的词库，组队开演、限时猜词、实时排行。">
   <link rel="icon" type="image/png" href="./assets/cda-logo.png">
-  <title>你比我猜 · 港科广学生职业发展协会</title>
+  <title>你比我猜 · 香港科技大学（广州）学生职业发展协会</title>
   <style>
     :root{color-scheme:light;--bg:#f5f7fa;--ink:#12304d;--muted:#607084;--blue:#003366;--yellow:#ffcf32;--line:#dce3eb;font-family:"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;font-synthesis:none}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}a{color:inherit;text-decoration:none}[hidden]{display:none!important}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #307bb6;outline-offset:3px}::selection{background:#ffdf70;color:var(--ink)}
@@ -31,11 +31,13 @@
     @keyframes stageDrift{to{transform:translate(42px,-28px) scale(1.12)}}@keyframes sparkFloat{to{transform:translate(12px,-22px);opacity:.35}}@keyframes livePulse{50%{opacity:.35;transform:scale(.8)}}@keyframes timerPulse{50%{filter:drop-shadow(0 0 7px #b84e3235)}}@keyframes scorePop{50%{transform:translateY(-2px) scale(1.18)}}@keyframes wordReveal{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes pageEnter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes leaderDrift{to{transform:translate(-14px,-10px) scale(1.15)}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}body.motion-off *,body.motion-off *:before,body.motion-off *:after{animation:none!important;transition:none!important}
     .brand-main{white-space:nowrap}.brand-campus:before{content:", "}@media(max-width:680px){.brand{gap:8px}.brand-main{font-size:clamp(11px,3.4vw,15px)}.brand-sub{display:block;font-size:8px;letter-spacing:0;line-height:1.25}.brand-campus{display:block}.brand-campus:before{content:""}}
+    .setup-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.setup-tools .mini-btn{font-size:11px;padding:8px 10px}.setup-tools .danger-action{color:#9c4133}@media(max-width:680px){.topbar{height:72px}.brand-main{white-space:normal;max-width:calc(100vw - 160px);line-height:1.3}body[data-page="game"] main{height:calc(100dvh - 128px)}body:not([data-page="game"]) main{min-height:calc(100dvh - 128px)}}
+    body:not([data-page="game"]) main{padding-top:12px;padding-bottom:12px}.site-credit{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:12px;font-size:11px;line-height:16px;color:var(--muted)}.site-credit a{text-underline-offset:3px}.site-credit a:hover{text-decoration:underline;color:var(--blue)}.site-credit a:focus-visible{outline:2px solid #307bb6;outline-offset:3px}body[data-page="game"] .site-credit{display:none}
   </style>
 </head>
 <body data-page="setup">
 <header class="topbar wrap">
-  <a class="brand" href="#" aria-label="港科广学生职业发展协会（Career Development Association, HKUST(GZ)）· 你比我猜"><span class="brand-icon"><img src="./assets/cda-logo.png" alt="港科广学生职业发展协会官方 Logo" width="42" height="42" decoding="async"></span><span><strong class="brand-main">港科广学生职业发展协会</strong><small class="brand-sub">Career Development Association<span class="brand-campus">HKUST(GZ)</span></small></span></a>
+  <a class="brand" href="#" aria-label="香港科技大学（广州）学生职业发展协会（Career Development Association, HKUST(GZ)）· 你比我猜"><span class="brand-icon"><img src="./assets/cda-logo.png" alt="香港科技大学（广州）学生职业发展协会官方 Logo" width="42" height="42" decoding="async"></span><span><strong class="brand-main">香港科技大学（广州）学生职业发展协会</strong><small class="brand-sub">Career Development Association<span class="brand-campus">HKUST(GZ)</span></small></span></a>
   <div class="topnav"><span class="nav-tag">CDA CAMPUS EDITION / 2026</span><button class="icon-button" id="fullscreenBtn" type="button">⛶ 全屏模式</button></div>
 </header>
 <div class="view-controls wrap">
@@ -62,9 +64,9 @@
       <p class="hint">规则：比划的人不能说话、不能写字；猜对点「答对」，不会点「跳过」。</p>
     </section>
     <aside class="sidebar">
-      <section class="panel" aria-label="分组管理"><div class="panel-heading"><div><span class="micro-label">02 / YOUR SQUADS</span><h3>队伍管理</h3></div><span class="small-caption" id="teamCount">共 2 组</span></div><div class="team-list" id="teamsList"></div><button class="text-action" id="addTeamBtn" type="button">＋ 添加一支队伍</button><p class="small-caption">点击左侧色块，指定下一轮上场队伍；直接修改名称即可。</p></section>
+      <section class="panel" aria-label="分组管理"><div class="panel-heading"><div><span class="micro-label">02 / YOUR SQUADS</span><h3>队伍管理</h3></div><span class="small-caption" id="teamCount">共 2 组</span></div><div class="team-list" id="teamsList"></div><button class="text-action" id="addTeamBtn" type="button">＋ 添加一支队伍</button><p class="small-caption">点击左侧色块，指定下一轮上场队伍；直接修改名称即可。</p><div class="setup-tools"><button class="mini-btn" id="resetTeamsBtn" type="button">重置队伍</button></div></section>
       <section class="panel" id="settingsPanel" aria-label="比赛设置"><div class="panel-heading"><div><span class="micro-label">03 / THE RULES</span><h3>游戏规则</h3></div><span class="small-caption">自由定制</span></div>
-        <div class="setting-section first"><div class="setting-label">自备词库 <span id="poolCount">已用 0 / 0 个 · 剩余 0 个</span></div><p class="small-caption">上传 TXT、CSV 或粘贴词语。抽出即计为已用，包含当前题目与跳过题。</p></div>
+        <div class="setting-section first"><div class="setting-label">自备词库 <span id="poolCount">已用 0 / 0 个 · 剩余 0 个</span></div><p class="small-caption">上传 TXT、CSV 或粘贴词语。抽出即计为已用，包含当前题目与跳过题。</p><div class="setup-tools"><button class="mini-btn" id="setupResetDeckBtn" type="button">重置抽词进度</button><button class="mini-btn danger-action" id="clearWordsBtn" type="button">清空词库</button></div></div>
         <div class="setting-section"><div class="setting-label">每轮限时 <span id="durationLabel">60 秒</span></div><div class="time-presets" id="timePresets"><button class="option" data-secs="30">30s</button><button class="option" data-secs="45">45s</button><button class="option active" data-secs="60">60s</button><button class="option" data-secs="90">90s</button><button class="option" data-secs="120">120s</button></div><label class="custom-duration">自定义秒数 <input id="durationInput" class="number-input" type="number" min="15" max="300" step="5" value="60"> 秒（15–300）</label></div>
         <div class="setting-section"><div class="setting-label">计分方式 <span>每题独立计分</span></div><div class="score-options"><label class="score-field">答对加分<input class="number-input" type="number" id="correctPoints" value="1" min="1" max="10"></label><label class="score-field">跳过扣分<input class="number-input" type="number" id="skipPenalty" value="0" min="0" max="10"></label></div></div>
         <div class="setting-section"><label class="switch-row">游戏提示音<span class="switch"><input id="soundToggle" type="checkbox" checked><i></i></span></label><label class="switch-row">动画与庆祝特效<span class="switch"><input id="motionToggle" type="checkbox" checked><i></i></span></label></div>
@@ -83,6 +85,7 @@
   </section>
   <div class="page-cta" id="setupActions"><span>上传词表、设置队伍后，即可开始。</span><button class="btn btn-primary" type="button" id="setupStartBtn">开始本轮挑战 →</button></div>
   <div class="page-cta" id="resultsActions"><span id="nextTeamLabel"></span><button class="btn btn-primary" type="button" id="nextRoundBtn">下一队开始 →</button></div>
+  <footer class="site-credit" aria-label="制作与开源信息"><span>制作：<a href="https://github.com/FuTseYi" target="_blank" rel="noopener noreferrer">FuTseYi</a></span><span aria-hidden="true">·</span><a href="https://github.com/FuTseYi/HKUST-CDA-ActNGuess" target="_blank" rel="noopener noreferrer">GitHub 项目仓库 ↗</a></footer>
 </main>
 
 <div class="modal-backdrop" id="wordsModal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="wordsTitle"><div class="modal-header"><h2 id="wordsTitle">管理词库</h2><button class="close-modal" id="closeWordsBtn" aria-label="关闭">×</button></div><p>上传 UTF-8 编码的 TXT 或 CSV 文件，每行一个词，无需表头。也可以在下方粘贴，用换行、逗号或分号分隔。重复词语会自动合并。</p><label class="file-label" for="wordFile">上传词表<input id="wordFile" type="file" accept=".txt,.csv,text/plain,text/csv"></label><p id="importStatus" role="status"></p><div class="word-count" id="customCount">已添加 0 题</div><div class="custom-chips" id="customChips"></div><label class="setting-label" for="customInput">粘贴词语</label><textarea id="customInput" class="custom-input" placeholder="每行一个词语" maxlength="10000"></textarea><button class="btn btn-primary" id="addWordsBtn" type="button" style="width:100%;margin-top:10px">添加词语</button><p>最多 150 个词，每个词最多 18 个字。词表与抽题进度仅保存在当前浏览器。</p></section></div>
@@ -141,7 +144,7 @@
     $('durationInput').value=state.settings.duration;$('durationLabel').textContent=state.settings.duration+' 秒';
     $('correctPoints').value=state.settings.correctPoints;$('skipPenalty').value=state.settings.skipPenalty;
     $('soundToggle').checked=state.settings.sound;$('motionToggle').checked=state.settings.motion;
-    ['durationInput','correctPoints','skipPenalty','soundToggle','motionToggle','manageWordsBtn'].forEach(function(id){$(id).disabled=game.phase==='running'||game.phase==='paused'});
+    ['durationInput','correctPoints','skipPenalty','soundToggle','motionToggle','manageWordsBtn','resetTeamsBtn','setupResetDeckBtn','clearWordsBtn'].forEach(function(id){$(id).disabled=game.phase==='running'||game.phase==='paused'});
     $('poolCount').textContent=usageLabel();
     $('resultsUsage').textContent=usageLabel();
     document.body.classList.toggle('motion-off',!state.settings.motion);
@@ -285,8 +288,12 @@
   $('motionToggle').addEventListener('change',function(e){state.settings.motion=e.target.checked;save();renderSettings()});
   $('startBtn').addEventListener('click',startRound);$('correctBtn').addEventListener('click',function(){action(true)});$('skipBtn').addEventListener('click',function(){action(false)});$('pauseBtn').addEventListener('click',pauseRound);$('hideBtn').addEventListener('click',function(){game.hidden=!game.hidden;renderStage()});$('endBtn').addEventListener('click',function(){finishRound('manual')});
   $('manageWordsBtn').addEventListener('click',openWords);$('closeWordsBtn').addEventListener('click',closeWords);$('wordsModal').addEventListener('click',function(e){if(e.target===$('wordsModal'))closeWords()});$('addWordsBtn').addEventListener('click',function(){addCustom($('customInput').value);$('customInput').value=''});$('customChips').addEventListener('click',function(e){var b=e.target.closest('[data-delword]');if(!b)return;var w=state.custom[Number(b.dataset.delword)];state.custom.splice(Number(b.dataset.delword),1);state.used=state.used.filter(function(id){return id!=='u:'+w});save();renderCustom();renderAll()});
-  $('resetDeckBtn').addEventListener('click',function(){if(!confirm('重置抽题进度？已使用的词语将重新加入题库，队伍分数保持不变。'))return;state.used=[];save();renderAll();notify('抽题进度已重置。')});
-  $('resetGameBtn').addEventListener('click',function(){if(!confirm('确定重置整场比赛？所有队伍积分和比赛记录都将归零，队伍名称与自定义词库会保留。'))return;state.teams.forEach(function(t){t.score=0;t.totalCorrect=0;t.totalSkipped=0});state.completed=0;state.history=[];state.used=[];state.nextIndex=0;game.phase='idle';game.teamId=null;game.correct=game.skipped=game.delta=0;game.current=null;game.remaining=state.settings.duration*1000;save();renderAll();notify('比赛已重置，准备迎接新挑战！')});
+  function resetRound(){clearInterval(game.timerId);game.phase='idle';game.teamId=null;game.correct=game.skipped=game.delta=0;game.current=null;game.hidden=false;game.remaining=state.settings.duration*1000}
+  function resetDeck(){if(game.phase==='running'||game.phase==='paused')return;if(!confirm('重置抽题进度？已使用的词语将重新加入题库，队伍分数保持不变。'))return;state.used=[];save();renderAll();notify('抽题进度已重置。')}
+  $('resetDeckBtn').addEventListener('click',resetDeck);$('setupResetDeckBtn').addEventListener('click',resetDeck);
+  $('resetTeamsBtn').addEventListener('click',function(){if(game.phase==='running'||game.phase==='paused')return;if(!confirm('恢复默认的两支队伍，并清空所有积分和比赛记录？词库和抽词进度会保留。'))return;state.teams=clone(defaults.teams);state.nextIndex=0;state.completed=0;state.history=[];resetRound();save();renderAll();notify('队伍已恢复为默认两组，词库和抽词进度已保留。')});
+  $('clearWordsBtn').addEventListener('click',function(){if(game.phase==='running'||game.phase==='paused')return;if(!confirm('清空全部词语及抽词进度？队伍、积分和比赛记录会保留，需要重新上传词表才能开始。'))return;state.custom=[];state.used=[];save();renderAll();notify('词库已清空，请上传新的词表。')});
+  $('resetGameBtn').addEventListener('click',function(){if(!confirm('确定重置整场比赛？所有队伍积分和比赛记录都将归零，队伍名称与自定义词库会保留。'))return;state.teams.forEach(function(t){t.score=0;t.totalCorrect=0;t.totalSkipped=0});state.completed=0;state.history=[];state.used=[];state.nextIndex=0;resetRound();save();renderAll();notify('比赛已重置，准备迎接新挑战！')});
   $('exportBtn').addEventListener('click',csvExport);
   $('wordFile').addEventListener('change',async function(){
     var file=this.files[0];if(!file)return;
