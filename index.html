@@ -80,10 +80,10 @@
   var CAREER=['老板','面试官','实习生','程序员','秘书','保安','会计','设计师','打工人','社畜','牛马','简历','工牌','领带','西装','公文包','键盘','鼠标','咖啡','工资','奖金','面试','握手','鞠躬','打卡','加班','辞职','跳槽','摸鱼','开会','招聘','签约','升职','迟到','请假'];
   var COLORS=['#c8ff74','#8ad6ff','#ffafbd','#c3a6ff','#ffdc91','#85e7d8','#ffab85','#9dbaff'];
   var STORE='hkust-cda-actnguess-v1';
-  var defaults={teams:[{id:'t1',name:'第一组',score:0,color:0},{id:'t2',name:'第二组',score:0,color:1}],nextIndex:0,completed:0,used:[],history:[],custom:[],settings:{pool:'all',duration:60,correctPoints:1,skipPenalty:0,sound:true,motion:true}};
+  var defaults={teams:[{id:'t1',name:'第一组',score:0,totalCorrect:0,totalSkipped:0,color:0},{id:'t2',name:'第二组',score:0,totalCorrect:0,totalSkipped:0,color:1}],nextIndex:0,completed:0,used:[],history:[],custom:[],settings:{pool:'all',duration:60,correctPoints:1,skipPenalty:0,sound:true,motion:true}};
   function clone(x){return JSON.parse(JSON.stringify(x));}
   function limit(v,min,max,fallback){var n=Number(v);return Number.isFinite(n)?Math.min(max,Math.max(min,n)):fallback;}
-  function load(){try{var s=JSON.parse(localStorage.getItem(STORE));if(!s||!Array.isArray(s.teams)||!s.teams.length)return clone(defaults);var d=clone(defaults);d.teams=s.teams.filter(function(t){return t&&typeof t.name==='string'&&typeof t.id==='string';}).slice(0,20).map(function(t,i){return{id:String(t.id),name:t.name.slice(0,24)||'第'+(i+1)+'组',score:limit(t.score,-9999,999999,0),color:limit(t.color,0,7,i%8)}});if(!d.teams.length)d.teams=clone(defaults.teams);d.nextIndex=limit(s.nextIndex,0,d.teams.length-1,0);d.completed=limit(s.completed,0,99999,0);d.custom=Array.isArray(s.custom)?s.custom.filter(function(x){return typeof x==='string';}).slice(0,150):[];d.used=Array.isArray(s.used)?s.used.slice(0,10000):[];d.history=Array.isArray(s.history)?s.history.slice(-100):[];Object.assign(d.settings,s.settings||{});if(!['all','campus','career','custom'].includes(d.settings.pool))d.settings.pool='all';d.settings.duration=limit(d.settings.duration,15,300,60);d.settings.correctPoints=limit(d.settings.correctPoints,1,10,1);d.settings.skipPenalty=limit(d.settings.skipPenalty,0,10,0);d.settings.sound=d.settings.sound!==false;d.settings.motion=d.settings.motion!==false;return d;}catch(e){return clone(defaults)}}
+  function load(){try{var s=JSON.parse(localStorage.getItem(STORE));if(!s||!Array.isArray(s.teams)||!s.teams.length)return clone(defaults);var d=clone(defaults);d.teams=s.teams.filter(function(t){return t&&typeof t.name==='string'&&typeof t.id==='string';}).slice(0,20).map(function(t,i){return{id:String(t.id),name:t.name.slice(0,24)||'第'+(i+1)+'组',score:limit(t.score,-9999,999999,0),totalCorrect:limit(t.totalCorrect,0,999999,0),totalSkipped:limit(t.totalSkipped,0,999999,0),color:limit(t.color,0,7,i%8)}});if(!d.teams.length)d.teams=clone(defaults.teams);d.nextIndex=limit(s.nextIndex,0,d.teams.length-1,0);d.completed=limit(s.completed,0,99999,0);d.custom=Array.isArray(s.custom)?s.custom.filter(function(x){return typeof x==='string';}).slice(0,150):[];d.used=Array.isArray(s.used)?s.used.slice(0,10000):[];d.history=Array.isArray(s.history)?s.history.slice(-100):[];Object.assign(d.settings,s.settings||{});if(!['all','campus','career','custom'].includes(d.settings.pool))d.settings.pool='all';d.settings.duration=limit(d.settings.duration,15,300,60);d.settings.correctPoints=limit(d.settings.correctPoints,1,10,1);d.settings.skipPenalty=limit(d.settings.skipPenalty,0,10,0);d.settings.sound=d.settings.sound!==false;d.settings.motion=d.settings.motion!==false;return d;}catch(e){return clone(defaults)}}
   var state=load();
   var game={phase:'idle',teamId:null,correct:0,skipped:0,delta:0,remaining:state.settings.duration*1000,deadline:0,current:null,hidden:false,timerId:null};
   var $=function(id){return document.getElementById(id)};
@@ -104,7 +104,7 @@
   }
   function renderRanking(){
     var list=state.teams.slice().sort(function(a,b){return b.score-a.score||state.teams.indexOf(a)-state.teams.indexOf(b)});
-    el.ranking.innerHTML=list.map(function(t,i){return '<div class="ranking-row '+(i===0?'first':'')+'"><span class="rank-number">'+String(i+1).padStart(2,'0')+'</span><div class="rank-content"><strong>'+esc(t.name)+'</strong><small>'+(i===0?'目前领先':'继续加油')+'</small></div><span class="rank-score">'+t.score+'</span></div>'}).join('');
+    el.ranking.innerHTML=list.map(function(t,i){return '<div class="ranking-row '+(i===0?'first':'')+'"><span class="rank-number">'+String(i+1).padStart(2,'0')+'</span><div class="rank-content"><strong>'+esc(t.name)+'</strong><small>累计答对 '+(t.totalCorrect||0)+' 题 · 跳过 '+(t.totalSkipped||0)+' 题</small></div><span class="rank-score">'+t.score+'</span></div>'}).join('');
     $('roundCount').textContent=state.completed+' 轮已完成';
     $('roundHistory').innerHTML=state.history.slice(-5).reverse().map(function(h){return '<span class="history-pill">'+esc(h.teamName||'队伍')+' · <b>'+(h.delta>=0?'+':'')+h.delta+'</b> 分 · 答对 '+h.correct+'</span>'}).join('');
     $('exportBtn').disabled=state.completed===0;
@@ -170,8 +170,8 @@
   function action(correct){
     if(game.phase!=='running'||!game.current)return;
     var t=teamById(game.teamId);
-    if(correct){game.correct++;game.delta+=state.settings.correctPoints;t.score+=state.settings.correctPoints;tone('correct');burst(16)}
-    else{game.skipped++;game.delta-=state.settings.skipPenalty;t.score-=state.settings.skipPenalty;tone('skip')}
+    if(correct){game.correct++;game.delta+=state.settings.correctPoints;t.score+=state.settings.correctPoints;t.totalCorrect=(t.totalCorrect||0)+1;tone('correct');burst(16)}
+    else{game.skipped++;game.delta-=state.settings.skipPenalty;t.score-=state.settings.skipPenalty;t.totalSkipped=(t.totalSkipped||0)+1;tone('skip')}
     if(!draw()){finishRound('exhausted');return}
     save();renderRanking();renderSettings();renderStage();
   }
@@ -232,7 +232,7 @@
     $('customInput').value='';save();renderCustom();renderSettings();notify(added?'成功添加 '+added+' 个词语！':'没有新词语，或已经达到 150 题上限。');
   }
   function csvExport(){
-    var rows=[['排名','队伍','总分','已完成回合'],...state.teams.slice().sort(function(a,b){return b.score-a.score}).map(function(t,i){return[i+1,t.name,t.score,state.history.filter(function(h){return h.teamId===t.id}).length]})];
+    var rows=[['排名','队伍','累计答对','累计跳过','总分','已完成回合'],...state.teams.slice().sort(function(a,b){return b.score-a.score}).map(function(t,i){return[i+1,t.name,t.totalCorrect||0,t.totalSkipped||0,t.score,state.history.filter(function(h){return h.teamId===t.id}).length]})];
     var csv='\ufeff'+rows.map(function(row){return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');
     var url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));var a=document.createElement('a');a.href=url;a.download='HKUST-CDA-ActNGuess-results.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);notify('排行榜已导出为 CSV！');
   }
@@ -243,7 +243,7 @@
     if(remove){if(state.teams.length<=1){notify('至少需要保留一支队伍。');return}var id=remove.dataset.remove;state.teams=state.teams.filter(function(t){return t.id!==id});state.nextIndex=Math.min(state.nextIndex,state.teams.length-1);save();renderAll()}
   });
   el.teams.addEventListener('change',function(e){if(!e.target.matches('[data-rename]'))return;var t=teamById(e.target.dataset.rename);if(t){t.name=e.target.value.trim().slice(0,24)||'未命名队伍';save();renderAll()}});
-  $('addTeamBtn').addEventListener('click',function(){if(state.teams.length>=20){notify('最多可以添加 20 支队伍。');return}var n=state.teams.length+1;state.teams.push({id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:'第'+n+'组',score:0,color:(n-1)%COLORS.length});save();renderAll()});
+  $('addTeamBtn').addEventListener('click',function(){if(state.teams.length>=20){notify('最多可以添加 20 支队伍。');return}var n=state.teams.length+1;state.teams.push({id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:'第'+n+'组',score:0,totalCorrect:0,totalSkipped:0,color:(n-1)%COLORS.length});save();renderAll()});
   $('poolOptions').addEventListener('click',function(e){var b=e.target.closest('[data-pool]');if(!b||game.phase==='running'||game.phase==='paused')return;state.settings.pool=b.dataset.pool;save();renderAll()});
   $('timePresets').addEventListener('click',function(e){var b=e.target.closest('[data-secs]');if(!b||game.phase==='running'||game.phase==='paused')return;state.settings.duration=Number(b.dataset.secs);game.remaining=state.settings.duration*1000;save();renderAll()});
   $('durationInput').addEventListener('change',function(){state.settings.duration=limit(this.value,15,300,60);game.remaining=state.settings.duration*1000;save();renderAll()});
@@ -253,7 +253,7 @@
   $('startBtn').addEventListener('click',startRound);$('correctBtn').addEventListener('click',function(){action(true)});$('skipBtn').addEventListener('click',function(){action(false)});$('pauseBtn').addEventListener('click',pauseRound);$('hideBtn').addEventListener('click',function(){game.hidden=!game.hidden;renderStage()});$('endBtn').addEventListener('click',function(){finishRound('manual')});
   $('manageWordsBtn').addEventListener('click',openWords);$('closeWordsBtn').addEventListener('click',closeWords);$('wordsModal').addEventListener('click',function(e){if(e.target===$('wordsModal'))closeWords()});$('addWordsBtn').addEventListener('click',addCustom);$('customChips').addEventListener('click',function(e){var b=e.target.closest('[data-delword]');if(!b)return;var w=state.custom[Number(b.dataset.delword)];state.custom.splice(Number(b.dataset.delword),1);state.used=state.used.filter(function(id){return id!=='u:'+w});save();renderCustom();renderSettings()});
   $('resetDeckBtn').addEventListener('click',function(){if(!confirm('重置抽题进度？已使用的词语将重新加入题库，队伍分数保持不变。'))return;state.used=[];save();renderAll();notify('抽题进度已重置。')});
-  $('resetGameBtn').addEventListener('click',function(){if(!confirm('确定重置整场比赛？所有队伍积分和比赛记录都将归零，队伍名称与自定义词库会保留。'))return;state.teams.forEach(function(t){t.score=0});state.completed=0;state.history=[];state.used=[];state.nextIndex=0;game.phase='idle';game.teamId=null;game.correct=game.skipped=game.delta=0;game.current=null;game.remaining=state.settings.duration*1000;save();renderAll();notify('比赛已重置，准备迎接新挑战！')});
+  $('resetGameBtn').addEventListener('click',function(){if(!confirm('确定重置整场比赛？所有队伍积分和比赛记录都将归零，队伍名称与自定义词库会保留。'))return;state.teams.forEach(function(t){t.score=0;t.totalCorrect=0;t.totalSkipped=0});state.completed=0;state.history=[];state.used=[];state.nextIndex=0;game.phase='idle';game.teamId=null;game.correct=game.skipped=game.delta=0;game.current=null;game.remaining=state.settings.duration*1000;save();renderAll();notify('比赛已重置，准备迎接新挑战！')});
   $('exportBtn').addEventListener('click',csvExport);
   $('fullscreenBtn').addEventListener('click',function(){if(!document.fullscreenEnabled){notify('当前浏览器不支持网页全屏，可使用系统投屏。');return}if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(function(){notify('全屏未开启，请检查浏览器权限。')})});
   document.addEventListener('fullscreenchange',function(){$('fullscreenBtn').textContent=document.fullscreenElement?'⛶ 退出全屏':'⛶ 全屏模式'});
