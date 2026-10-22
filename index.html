@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090e1c">
+  <meta name="description" content="港科广职协 · 你比我猜。70 道专属词题，多组对战、限时猜词、实时排行。">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <title>你比我猜 · HKUST(GZ) CDA</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090d1b;--panel:#10182b;--panel-2:#151f33;--ink:#f4f6ff;--muted:#98a8c2;--lime:#c8ff74;--blue:#8ad6ff;--lavender:#9d96ff;--line:rgba(202,224,255,.13);--shadow:0 24px 80px rgba(0,0,0,.22);font-family:Inter,"SF Pro Display","PingFang SC","Microsoft YaHei",sans-serif;font-synthesis:none}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);overflow-x:hidden}button,input,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}input,textarea{outline:none}a{color:inherit;text-decoration:none}::selection{background:var(--lime);color:#101a24}[hidden]{display:none!important}
+    .ambient{position:fixed;z-index:-1;pointer-events:none;filter:blur(80px);border-radius:50%;opacity:.42}.ambient.a{background:#3150bd;width:440px;height:440px;top:-245px;right:10%}.ambient.b{background:#204e50;width:490px;height:420px;left:-270px;top:380px}.ambient.c{background:#363096;width:390px;height:390px;bottom:-220px;right:-160px}
+    .wrap{width:min(1250px,calc(100% - 48px));margin:0 auto}.topbar{height:90px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:14px}.brand{display:flex;align-items:center;gap:13px}.brand-icon{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:13px;background:var(--lime);color:#0b1c28;box-shadow:0 0 28px rgba(200,255,116,.15)}.brand-icon svg{width:27px;height:27px}.brand-main{display:block;letter-spacing:-.6px;font-size:18px;font-weight:900;line-height:1.1}.brand-main b{color:var(--lime)}.brand-sub{display:block;margin-top:5px;font-size:9px;letter-spacing:1.65px;color:var(--muted);font-weight:700}.topnav{display:flex;gap:16px;align-items:center}.nav-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted)}.icon-button{background:rgba(255,255,255,.05);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:11px 14px;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;transition:.25s}.icon-button:hover{border-color:var(--lime);transform:translateY(-2px)}
+    .hero{padding:66px 0 37px;display:flex;align-items:end;justify-content:space-between;gap:18px}.eyebrow{display:inline-flex;align-items:center;gap:9px;letter-spacing:2.5px;color:var(--lime);font-size:10px;font-weight:900}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 16px var(--lime);animation:blinking 2s infinite}.hero h1{font-size:clamp(43px,6.1vw,78px);line-height:1.1;letter-spacing:-3.9px;margin:19px 0 18px;font-weight:900}.hero h1 em{font-style:normal;color:var(--lime)}.hero p{color:var(--muted);font-size:14px;line-height:1.9;margin:0;max-width:600px}.hero-details{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.hero-details span{padding:7px 12px;background:#172239;border:1px solid var(--line);border-radius:99px;font-size:11px;color:#c3d0e3}.hero-art{position:relative;min-width:250px;height:175px}.art-card{position:absolute;transform:rotate(-10deg);right:53px;top:16px;width:156px;height:150px;border:1px solid rgba(255,255,255,.22);border-radius:29px;background:linear-gradient(145deg,#c5fa7b,#80dda0);box-shadow:15px 17px 0 rgba(117,117,224,.24);display:flex;align-items:center;justify-content:center;font-size:71px;animation:float 5s ease-in-out infinite}.art-bubble{position:absolute;right:0;top:12px;background:#f4f0ff;color:#221834;font-size:15px;letter-spacing:1px;font-weight:900;border-radius:15px 15px 15px 3px;padding:12px 15px;box-shadow:0 16px 35px #03081444;transform:rotate(9deg)}.art-mini{position:absolute;left:10px;bottom:17px;background:#192a46;border:1px solid #4c638c;color:var(--blue);font-size:10px;letter-spacing:1px;border-radius:10px;padding:10px;font-weight:800;transform:rotate(-7deg)}
+    .board-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(305px,.83fr);gap:18px;align-items:start}.play-card,.panel,.ranking-panel{border:1px solid var(--line);background:linear-gradient(155deg,rgba(25,38,63,.88),rgba(13,22,38,.96));border-radius:26px;box-shadow:var(--shadow)}.play-card{padding:23px;overflow:hidden}.card-head,.panel-heading,.ranking-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.micro-label{font-size:9px;color:var(--lime);letter-spacing:2px;font-weight:900}.card-head h2,.panel-heading h3,.ranking-heading h2{font-size:18px;letter-spacing:-.5px;margin:6px 0 0}.state-tag{font-size:10px;font-weight:900;letter-spacing:1px;border-radius:99px;padding:9px 12px;background:rgba(200,255,116,.1);color:var(--lime);border:1px solid rgba(200,255,116,.17)}.state-tag.live{background:rgba(255,106,148,.11);color:#ff91aa;border-color:rgba(255,106,148,.2)}.state-tag.paused{color:var(--blue);background:#8ad6ff11}
+    .stage{isolation:isolate;position:relative;overflow:hidden;background:radial-gradient(ellipse at 100% 0%,rgba(93,83,202,.34),transparent 55%),radial-gradient(ellipse at 4% 100%,rgba(61,157,146,.25),transparent 50%),linear-gradient(130deg,#182840,#162038 68%,#1e2342);border:1px solid rgba(215,229,255,.12);border-radius:22px;min-height:445px;margin-top:22px;padding:23px;display:flex;flex-direction:column;align-items:center}.stage:before{position:absolute;z-index:-1;inset:0;content:"";background-image:radial-gradient(rgba(255,255,255,.11) .75px,transparent .75px);background-size:23px 23px;mask-image:linear-gradient(150deg,#0002,#000 65%);opacity:.22}.stage:after{content:"";pointer-events:none;position:absolute;z-index:-1;right:-82px;bottom:-170px;width:360px;height:360px;border:1px solid #b7ceff17;border-radius:50%;box-shadow:0 0 0 45px #b7ceff09,0 0 0 90px #b7ceff05}.stage-top{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px}.stage-label{font-size:10px;color:#d3def1;border:1px solid #c4d9ff38;border-radius:99px;padding:7px 11px;background:#ffffff0a}.stage-team{font-size:11px;color:var(--lime);font-weight:900}
+    .timer{height:116px;width:116px;position:relative;display:grid;place-items:center;margin:12px auto 0;filter:drop-shadow(0 0 18px #b7fa6e20)}.timer svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}.timer circle{fill:none;stroke-width:5}.timer .track{stroke:#ffffff1c}.timer .progress{stroke:var(--lime);stroke-linecap:round;stroke-dasharray:289.03;stroke-dashoffset:0;transition:stroke-dashoffset .12s linear,stroke .2s}.timer.urgent .progress{stroke:#ff889f}.timer-number{font-size:32px;letter-spacing:-1px;font-weight:900;font-variant-numeric:tabular-nums}.timer-unit{font-size:9px;text-align:center;color:var(--muted);letter-spacing:1px}
+    .word-shell{display:flex;align-items:center;flex-direction:column;justify-content:center;flex:1;width:100%;min-height:167px;padding:7px}.word-kicker{font-size:10px;font-weight:900;letter-spacing:2.7px;color:#acd0f0;text-transform:uppercase}.main-word{font-size:clamp(37px,4.6vw,67px);letter-spacing:1.1px;font-weight:900;text-align:center;margin:15px 0 10px;line-height:1.25;overflow-wrap:anywhere;text-shadow:0 9px 24px #0004}.word-sub{font-size:12px;text-align:center;color:#b9c6de}.word-pop .main-word{animation:wordPop .37s cubic-bezier(.2,1.4,.5,1)}.stage-foot{display:flex;justify-content:center;gap:18px;width:100%;font-size:11px;font-weight:800;color:#dce9f4;padding-top:12px;border-top:1px solid #ffffff20}.stage-foot b{color:var(--lime)}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}.btn{min-height:50px;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 14px;border-radius:13px;border:1px solid transparent;font-size:13px;font-weight:900;transition:transform .18s,filter .18s,background .18s}.btn:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.08)}.btn:active:not(:disabled){transform:scale(.98)}.btn-primary{background:var(--lime);color:#172117;box-shadow:0 10px 28px #c8ff7420}.btn-secondary{background:#27324d;color:#eef4ff;border-color:#ffffff1d}.btn-success{background:#bcff77;color:#11221c}.btn-danger{background:#ffdb8b;color:#292013}.btn-ghost{background:#ffffff09;color:#d7e5fb;border-color:#ffffff20}.span-2{grid-column:1/-1}.hint{font-size:11px;text-align:center;color:var(--muted);margin:13px 0 1px;line-height:1.7}
+    .round-summary{margin-top:16px;padding:16px;border:1px solid #c8ff7450;border-radius:14px;background:#c8ff740c;display:flex;align-items:center;justify-content:space-between;gap:12px}.round-summary strong{display:block;font-size:16px}.round-summary p{margin:5px 0 0;font-size:11px;color:var(--muted)}.summary-score{color:var(--lime);font-weight:900;font-size:29px;white-space:nowrap}.summary-score small{font-size:12px;color:#dce8d1}
+    .sidebar{display:grid;gap:18px}.panel{padding:22px}.panel-heading{margin-bottom:17px}.panel-heading h3{font-size:16px}.small-caption{font-size:10px;color:var(--muted)}.team-list{display:grid;gap:9px}.team-row{display:flex;align-items:center;gap:9px;padding:8px;border:1px solid #ffffff13;border-radius:14px;background:#ffffff08;transition:.2s}.team-row.selected{border-color:#c8ff748c;background:#c8ff7411}.team-select{border:0;background:transparent;width:30px;height:30px;display:grid;place-items:center;flex:none;padding:0}.team-dot{width:15px;height:15px;background:var(--team-color);border-radius:6px;box-shadow:0 0 15px color-mix(in srgb,var(--team-color),transparent 65%);transition:transform .2s}.team-row.selected .team-dot{transform:rotate(45deg)}.team-name{width:10px;flex:1;min-width:0;color:#f6f8ff;background:transparent;border:1px solid transparent;border-radius:8px;font-size:12px;font-weight:750;padding:8px 4px}.team-name:focus{border-color:#8ad6ff80;background:#0002}.team-score{font-size:17px;font-variant-numeric:tabular-nums;font-weight:900;min-width:25px;text-align:right}.remove-team{width:29px;height:29px;border:0;border-radius:8px;background:transparent;color:var(--muted);font-size:17px}.remove-team:hover{background:#ff6b7d30;color:#ffa8ac}.text-action{display:flex;align-items:center;justify-content:center;gap:7px;border:1px dashed #b6caff45;background:transparent;color:#bec9df;font-weight:800;font-size:12px;border-radius:13px;min-height:40px;width:100%;margin-top:11px}.text-action:hover{border-color:var(--lime);color:var(--lime)}
+    .setting-section{border-top:1px solid var(--line);padding-top:17px;margin-top:17px}.setting-section.first{border:0;margin:0;padding:0}.setting-label{display:flex;justify-content:space-between;align-items:center;color:#f1f4fb;font-size:12px;font-weight:850;margin-bottom:12px}.setting-label span{font-size:10px;font-weight:500;color:var(--muted)}.segmented{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.option{padding:11px 8px;color:#aabbd4;background:#ffffff09;border:1px solid #ffffff10;border-radius:11px;font-size:11px;font-weight:850;transition:.2s}.option:hover{background:#ffffff17}.option.active{color:#142215;background:var(--lime);border-color:var(--lime)}.time-presets{display:flex;gap:7px;flex-wrap:wrap}.time-presets .option{flex:1;min-width:42px;padding:10px 5px}.custom-duration{margin-top:12px;display:flex;align-items:center;gap:9px;color:var(--muted);font-size:11px}.number-input{background:#081221;border:1px solid #ffffff29;border-radius:9px;padding:9px 10px;color:#f9fcff;font-size:12px;width:80px;text-align:center}.number-input:focus,.custom-input:focus{border-color:var(--lime)}.score-options{display:grid;grid-template-columns:1fr 1fr;gap:13px}.score-field{display:flex;flex-direction:column;gap:8px;font-size:11px;color:var(--muted)}.score-field input{width:100%}.switch-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:8px 0;color:#e9effa;gap:10px}.switch{position:relative;display:inline-flex;width:43px;height:25px;flex:none}.switch input{opacity:0;width:0;height:0}.switch i{position:absolute;inset:0;border-radius:99px;background:#3b475c;transition:.2s}.switch i:before{content:"";position:absolute;height:19px;width:19px;top:3px;left:3px;border-radius:50%;background:#fff;transition:.2s}.switch input:checked+i{background:var(--lime)}.switch input:checked+i:before{transform:translateX(18px);background:#19301b}
+    .ranking-panel{margin:18px 0 0;padding:26px}.ranking-heading{margin-bottom:19px}.rankings{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:11px}.ranking-row{display:flex;align-items:center;gap:13px;padding:16px;border:1px solid #ffffff18;border-radius:15px;background:#ffffff08;min-width:0}.ranking-row.first{background:linear-gradient(100deg,#cbff751b,#c4ff7508);border-color:#c8ff744c}.rank-number{font-size:20px;color:var(--muted);font-weight:900;letter-spacing:-1px}.ranking-row.first .rank-number{color:var(--lime)}.rank-content{flex:1;min-width:0}.rank-content strong{font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank-content small{font-size:10px;color:var(--muted)}.rank-score{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}.ranking-controls{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.mini-btn{border:1px solid #ffffff22;background:#ffffff0b;color:#b9cae1;border-radius:9px;padding:9px 12px;font-size:11px;font-weight:800}.mini-btn:hover{color:var(--lime);border-color:var(--lime)}.history-list{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}.history-pill{padding:8px 11px;border-radius:9px;background:#ffffff0b;border:1px solid #ffffff12;font-size:10px;color:#bdcbe0}.history-pill b{color:var(--lime)}.footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:34px 0 43px;font-size:10px;letter-spacing:.3px;color:#8291ad}.footer a{text-decoration:underline;text-decoration-color:#ffffff30}
+    .modal-backdrop{z-index:50;position:fixed;inset:0;background:#020711d8;display:grid;place-items:center;padding:20px;backdrop-filter:blur(9px)}.modal{width:min(560px,100%);max-height:min(85vh,760px);overflow-y:auto;border:1px solid #bcd0ff3a;border-radius:24px;background:#18243a;padding:24px;box-shadow:0 35px 90px #0009}.modal-header{display:flex;align-items:center;justify-content:space-between}.modal-header h2{margin:0;font-size:23px}.close-modal{background:transparent;border:1px solid #ffffff2a;border-radius:10px;color:white;width:34px;height:34px}.modal p{color:var(--muted);font-size:12px;line-height:1.8}.custom-input{width:100%;resize:vertical;min-height:110px;border:1px solid #ffffff28;background:#0c1527;border-radius:12px;color:white;padding:12px;line-height:1.8;font-size:13px}.custom-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.custom-chip{background:#ffffff0e;border:1px solid #ffffff20;border-radius:9px;padding:8px 9px;color:#f6f8fe;font-size:12px;display:flex;gap:8px;align-items:center}.custom-chip button{background:none;color:#ffb0ba;border:0;font-size:17px;padding:0 2px}.word-count{font-size:11px;color:var(--lime);font-weight:850}
+    .toast{z-index:100;position:fixed;bottom:25px;left:50%;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:#d5ff97;color:#172615;border-radius:14px;box-shadow:0 18px 40px #0006;padding:12px 21px;font-size:12px;font-weight:900;transition:.3s;max-width:calc(100% - 30px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;width:100%;height:100%}
+    :focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    @keyframes float{0%,100%{transform:rotate(-10deg) translateY(0)}50%{transform:rotate(-6deg) translateY(-12px)}}@keyframes blinking{50%{opacity:.35;box-shadow:none}}@keyframes wordPop{0%{transform:translateY(16px) scale(.89);filter:blur(6px);opacity:0}100%{transform:translateY(0) scale(1);filter:blur(0);opacity:1}}
+    @media(max-width:980px){.board-layout{grid-template-columns:1fr}.sidebar{grid-template-columns:1fr 1fr}.hero-art{min-width:205px}.hero h1{font-size:57px}}@media(max-width:680px){.wrap{width:calc(100% - 28px)}.topbar{height:75px}.brand-icon{width:36px;height:36px}.brand-main{font-size:15px}.brand-sub{font-size:8px;letter-spacing:.6px}.nav-tag{display:none}.hero{padding:43px 0 28px}.hero h1{font-size:clamp(39px,10vw,57px);letter-spacing:-2.4px}.hero-art{display:none}.hero p{font-size:12px}.sidebar{grid-template-columns:1fr}.play-card,.panel,.ranking-panel{border-radius:19px}.play-card{padding:14px}.stage{min-height:404px;padding:15px;margin-top:16px;border-radius:16px}.main-word{font-size:clamp(37px,11vw,60px)}.timer{width:98px;height:98px;margin-top:9px}.timer-number{font-size:27px}.panel{padding:18px}.ranking-panel{padding:17px}.card-head h2{font-size:16px}.footer{align-items:flex-start;flex-direction:column}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+    body.motion-off *,body.motion-off *:before,body.motion-off *:after{animation:none!important;transition:none!important}
+  </style>
+</head>
+<body>
+<div class="ambient a"></div><div class="ambient b"></div><div class="ambient c"></div>
+<header class="topbar wrap">
+  <a class="brand" href="#" aria-label="Act & Guess 首页"><span class="brand-icon"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M7 23V9h7m0 0v14m0-14 11 14M8 16h18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong class="brand-main">ACT <b>&</b> GUESS</strong><small class="brand-sub">HKUST(GZ) · CAREER DEVELOPMENT</small></span></a>
+  <div class="topnav"><span class="nav-tag">CDA CAMPUS EDITION / 2026</span><button class="icon-button" id="fullscreenBtn" type="button">⛶ 全屏模式</button></div>
+</header>
+<main class="wrap">
+  <section class="hero"><div><span class="eyebrow">THE ULTIMATE CAMPUS ICEBREAKER</span><h1>不许说，<em>只许演。</em></h1><p>有些词，不能说出口；有些默契，一比划就懂。<br>港科广 × 职协限定 · 组队开演，倒计时开始！</p><div class="hero-details"><span>✦ 70 道主题词</span><span>◷ 限时竞赛</span><span>↗ 多队实时排行</span><span>✧ 自定义玩法</span></div></div><div class="hero-art" aria-hidden="true"><span class="art-card">🙌</span><span class="art-bubble">懂我意思吧！</span><span class="art-mini">NO WORDS. JUST MOVES.</span></div></section>
+  <div class="board-layout">
+    <section class="play-card" aria-label="游戏舞台"><div class="card-head"><div><span class="micro-label">01 / THE ARENA</span><h2>游戏舞台</h2></div><span class="state-tag" id="statusTag">READY TO PLAY</span></div>
+      <div class="stage" id="stage">
+        <div class="stage-top"><span class="stage-label" id="stageCategory">混合词库 · 随机出题</span><span class="stage-team" id="stageTeamBadge">第 1 组准备</span></div>
+        <div class="timer" id="timerRing"><svg viewBox="0 0 116 116" aria-hidden="true"><circle class="track" cx="58" cy="58" r="46"></circle><circle class="progress" id="timerProgress" cx="58" cy="58" r="46"></circle></svg><div><div class="timer-number" id="timerNumber">60</div><div class="timer-unit">SECONDS</div></div></div>
+        <div class="word-shell" id="wordShell" aria-live="polite"><span class="word-kicker" id="wordKicker">READY · SET · ACT</span><div class="main-word" id="wordText">准备开演！</div><div class="word-sub" id="wordSub">先设置队伍和规则，再开始你的第一轮</div></div>
+        <div class="stage-foot"><span>✓ 本轮答对 <b id="miniCorrect">0</b></span><span>➜ 跳过 <b id="miniSkip">0</b></span><span>✦ 得分 <b id="miniPoints">0</b></span></div>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary span-2" type="button" id="startBtn">✦ 开始本轮挑战 →</button>
+        <button class="btn btn-success" type="button" id="correctBtn" hidden>✓ 答对啦 <small>Space</small></button>
+        <button class="btn btn-danger" type="button" id="skipBtn" hidden>➜ 跳过此题 <small>→</small></button>
+        <button class="btn btn-secondary" type="button" id="pauseBtn" hidden>Ⅱ 暂停 / 继续</button>
+        <button class="btn btn-ghost" type="button" id="hideBtn" hidden>◉ 隐藏题目</button>
+        <button class="btn btn-ghost span-2" type="button" id="endBtn" hidden>结束本轮，查看成绩</button>
+      </div>
+      <div class="round-summary" id="roundSummary" hidden><div><strong id="summaryTitle">恭喜完成！</strong><p id="summaryDesc"></p></div><div class="summary-score"><span id="summaryScore">+0</span><small> 分</small></div></div>
+      <p class="hint">规则：比划的人不能说话、不能写字；猜对点「答对」，不会点「跳过」。</p>
+    </section>
+    <aside class="sidebar">
+      <section class="panel" aria-label="分组管理"><div class="panel-heading"><div><span class="micro-label">02 / YOUR SQUADS</span><h3>队伍管理</h3></div><span class="small-caption" id="teamCount">共 2 组</span></div><div class="team-list" id="teamsList"></div><button class="text-action" id="addTeamBtn" type="button">＋ 添加一支队伍</button><p class="small-caption">点击左侧色块，指定下一轮上场队伍；直接修改名称即可。</p></section>
+      <section class="panel" id="settingsPanel" aria-label="比赛设置"><div class="panel-heading"><div><span class="micro-label">03 / THE RULES</span><h3>游戏规则</h3></div><span class="small-caption">自由定制</span></div>
+        <div class="setting-section first"><div class="setting-label">选择词库 <span id="poolCount">共 70 题</span></div><div class="segmented" id="poolOptions"><button class="option active" data-pool="all">全部混合</button><button class="option" data-pool="campus">🏫 港科广</button><button class="option" data-pool="career">💼 职业协会</button><button class="option" data-pool="custom">✎ 自定义</button></div></div>
+        <div class="setting-section"><div class="setting-label">每轮限时 <span id="durationLabel">60 秒</span></div><div class="time-presets" id="timePresets"><button class="option" data-secs="30">30s</button><button class="option" data-secs="45">45s</button><button class="option active" data-secs="60">60s</button><button class="option" data-secs="90">90s</button><button class="option" data-secs="120">120s</button></div><label class="custom-duration">自定义秒数 <input id="durationInput" class="number-input" type="number" min="15" max="300" step="5" value="60"> 秒（15–300）</label></div>
+        <div class="setting-section"><div class="setting-label">计分方式 <span>每题独立计分</span></div><div class="score-options"><label class="score-field">答对加分<input class="number-input" type="number" id="correctPoints" value="1" min="1" max="10"></label><label class="score-field">跳过扣分<input class="number-input" type="number" id="skipPenalty" value="0" min="0" max="10"></label></div></div>
+        <div class="setting-section"><label class="switch-row">🔊 游戏提示音<span class="switch"><input id="soundToggle" type="checkbox" checked><i></i></span></label><label class="switch-row">✨ 动画与庆祝特效<span class="switch"><input id="motionToggle" type="checkbox" checked><i></i></span></label></div>
+        <button class="text-action" id="manageWordsBtn" type="button">✎ 管理自定义词库</button>
+      </section>
+    </aside>
+  </div>
+  <section class="ranking-panel" aria-label="实时排行榜"><div class="ranking-heading"><div><span class="micro-label">04 / LEADERBOARD</span><h2>🏆 实时排行榜</h2></div><span class="small-caption" id="roundCount">0 轮已完成</span></div><div class="rankings" id="rankings"></div><div class="history-list" id="roundHistory"></div><div class="ranking-controls"><button class="mini-btn" id="exportBtn">↧ 导出成绩 CSV</button><button class="mini-btn" id="resetDeckBtn">↻ 重置已抽词语</button><button class="mini-btn" id="resetGameBtn">⟲ 重置整场比赛</button></div></section>
+</main>
+<footer class="footer wrap"><span>MADE FOR HKUST(GZ) CAREER DEVELOPMENT ASSOCIATION · ACT MORE, GUESS FASTER.</span><a href="https://github.com/FuTseYi/HKUST-CDA-ActNGuess" target="_blank" rel="noopener noreferrer">GITHUB ↗</a></footer>
+<div class="modal-backdrop" id="wordsModal" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="wordsTitle"><div class="modal-header"><h2 id="wordsTitle">✎ 自定义词库</h2><button class="close-modal" id="closeWordsBtn" aria-label="关闭">×</button></div><p>内置 <strong>港科广 35 题 + 职业协会 35 题</strong>。你可以再添加现场专属梗，每行一个，也支持用逗号分隔。添加的词语仅保存在当前浏览器。</p><div class="word-count" id="customCount">已添加 0 题</div><div class="custom-chips" id="customChips"></div><textarea id="customInput" class="custom-input" placeholder="例如：&#10;主席&#10;抽奖&#10;HR&#10;面试&#10;..." maxlength="3000"></textarea><button class="btn btn-primary" id="addWordsBtn" type="button" style="width:100%;margin-top:10px">＋ 添加到自定义词库</button><p>选择「全部混合」时，自定义题也会加入抽题池；也可以在设置里只玩自定义题库。最多支持 150 个自定义词语。</p></section></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div><canvas id="confetti" aria-hidden="true"></canvas>
+<script>
+(function(){
+  'use strict';
+  var CAMPUS=['红鸟','教授','导师','博士','硕士','校长','助教','室友','同学','留学生','机器人','无人机','机械臂','实验室','图书馆','宿舍','食堂','游泳馆','健身房','自行车','校巴','电梯','电脑','论文','作业','答辩','考试','选课','点名','签到','熬夜','讲座','游泳','骑行','毕业'];
+  var CAREER=['老板','面试官','实习生','程序员','秘书','保安','会计','设计师','打工人','社畜','牛马','简历','工牌','领带','西装','公文包','键盘','鼠标','咖啡','工资','奖金','面试','握手','鞠躬','打卡','加班','辞职','跳槽','摸鱼','开会','招聘','签约','升职','迟到','请假'];
+  var COLORS=['#c8ff74','#8ad6ff','#ffafbd','#c3a6ff','#ffdc91','#85e7d8','#ffab85','#9dbaff'];
+  var STORE='hkust-cda-actnguess-v1';
+  var defaults={teams:[{id:'t1',name:'第一组',score:0,color:0},{id:'t2',name:'第二组',score:0,color:1}],nextIndex:0,completed:0,used:[],history:[],custom:[],settings:{pool:'all',duration:60,correctPoints:1,skipPenalty:0,sound:true,motion:true}};
+  function clone(x){return JSON.parse(JSON.stringify(x));}
+  function limit(v,min,max,fallback){var n=Number(v);return Number.isFinite(n)?Math.min(max,Math.max(min,n)):fallback;}
+  function load(){try{var s=JSON.parse(localStorage.getItem(STORE));if(!s||!Array.isArray(s.teams)||!s.teams.length)return clone(defaults);var d=clone(defaults);d.teams=s.teams.filter(function(t){return t&&typeof t.name==='string'&&typeof t.id==='string';}).slice(0,20).map(function(t,i){return{id:String(t.id),name:t.name.slice(0,24)||'第'+(i+1)+'组',score:limit(t.score,-9999,999999,0),color:limit(t.color,0,7,i%8)}});if(!d.teams.length)d.teams=clone(defaults.teams);d.nextIndex=limit(s.nextIndex,0,d.teams.length-1,0);d.completed=limit(s.completed,0,99999,0);d.custom=Array.isArray(s.custom)?s.custom.filter(function(x){return typeof x==='string';}).slice(0,150):[];d.used=Array.isArray(s.used)?s.used.slice(0,10000):[];d.history=Array.isArray(s.history)?s.history.slice(-100):[];Object.assign(d.settings,s.settings||{});if(!['all','campus','career','custom'].includes(d.settings.pool))d.settings.pool='all';d.settings.duration=limit(d.settings.duration,15,300,60);d.settings.correctPoints=limit(d.settings.correctPoints,1,10,1);d.settings.skipPenalty=limit(d.settings.skipPenalty,0,10,0);d.settings.sound=d.settings.sound!==false;d.settings.motion=d.settings.motion!==false;return d;}catch(e){return clone(defaults)}}
+  var state=load();
+  var game={phase:'idle',teamId:null,correct:0,skipped:0,delta:0,remaining:state.settings.duration*1000,deadline:0,current:null,hidden:false,timerId:null};
+  var $=function(id){return document.getElementById(id)};
+  var el={teams:$('teamsList'),ranking:$('rankings'),status:$('statusTag'),word:$('wordText'),kicker:$('wordKicker'),wordSub:$('wordSub'),shell:$('wordShell'),category:$('stageCategory'),team:$('stageTeamBadge'),ring:$('timerRing'),progress:$('timerProgress'),number:$('timerNumber')};
+  function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){/* Private mode or storage disabled. */}}
+  function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function teamById(id){return state.teams.find(function(t){return t.id===id})}
+  function currentTeam(){return teamById(game.teamId)||state.teams[state.nextIndex]||state.teams[0]}
+  function allWords(){return CAMPUS.map(function(w,i){return{id:'c'+i,word:w,group:'campus',label:'港科广校园'}}).concat(CAREER.map(function(w,i){return{id:'j'+i,word:w,group:'career',label:'职业协会'}}),state.custom.map(function(w){return{id:'u:'+w,word:w,group:'custom',label:'自定义题库'}}))}
+  function poolWords(){return allWords().filter(function(w){return state.settings.pool==='all'||w.group===state.settings.pool})}
+  function available(){return poolWords().filter(function(w){return state.used.indexOf(w.id)===-1})}
+  function poolLabel(){return{all:'全部混合',campus:'港科广校园',career:'职业协会',custom:'自定义题库'}[state.settings.pool]}
+  function notify(message){var node=$('toast');node.textContent=message;node.classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(function(){node.classList.remove('show')},2800)}
+  function renderTeams(){
+    $('teamCount').textContent='共 '+state.teams.length+' 组';
+    el.teams.innerHTML=state.teams.map(function(t,i){return '<div class="team-row '+(i===state.nextIndex?'selected':'')+'" style="--team-color:'+COLORS[t.color%COLORS.length]+'"><button type="button" class="team-select" data-pick="'+esc(t.id)+'" title="指定下一组" '+(game.phase==='running'||game.phase==='paused'?'disabled':'')+'><span class="team-dot"></span></button><input class="team-name" type="text" maxlength="24" aria-label="队伍名称" data-rename="'+esc(t.id)+'" value="'+esc(t.name)+'" '+(game.phase==='running'||game.phase==='paused'?'disabled':'')+'><strong class="team-score">'+t.score+'</strong><button type="button" class="remove-team" title="删除队伍" aria-label="删除队伍" data-remove="'+esc(t.id)+'" '+(game.phase==='running'||game.phase==='paused'?'disabled':'')+'>×</button></div>'}).join('');
+    $('addTeamBtn').disabled=state.teams.length>=20||game.phase==='running'||game.phase==='paused';
+  }
+  function renderRanking(){
+    var list=state.teams.slice().sort(function(a,b){return b.score-a.score||state.teams.indexOf(a)-state.teams.indexOf(b)});
+    el.ranking.innerHTML=list.map(function(t,i){return '<div class="ranking-row '+(i===0?'first':'')+'"><span class="rank-number">'+String(i+1).padStart(2,'0')+'</span><div class="rank-content"><strong>'+esc(t.name)+'</strong><small>'+(i===0?'目前领先':'继续加油')+'</small></div><span class="rank-score">'+t.score+'</span></div>'}).join('');
+    $('roundCount').textContent=state.completed+' 轮已完成';
+    $('roundHistory').innerHTML=state.history.slice(-5).reverse().map(function(h){return '<span class="history-pill">'+esc(h.teamName||'队伍')+' · <b>'+(h.delta>=0?'+':'')+h.delta+'</b> 分 · 答对 '+h.correct+'</span>'}).join('');
+    $('exportBtn').disabled=state.completed===0;
+  }
+  function renderSettings(){
+    document.querySelectorAll('[data-pool]').forEach(function(b){b.classList.toggle('active',b.dataset.pool===state.settings.pool);b.disabled=game.phase==='running'||game.phase==='paused'});
+    document.querySelectorAll('[data-secs]').forEach(function(b){b.classList.toggle('active',Number(b.dataset.secs)===state.settings.duration);b.disabled=game.phase==='running'||game.phase==='paused'});
+    $('durationInput').value=state.settings.duration;$('durationLabel').textContent=state.settings.duration+' 秒';
+    $('correctPoints').value=state.settings.correctPoints;$('skipPenalty').value=state.settings.skipPenalty;
+    $('soundToggle').checked=state.settings.sound;$('motionToggle').checked=state.settings.motion;
+    ['durationInput','correctPoints','skipPenalty','soundToggle','motionToggle','manageWordsBtn'].forEach(function(id){$(id).disabled=game.phase==='running'||game.phase==='paused'});
+    $('poolCount').textContent='可用 '+available().length+' / '+poolWords().length+' 题';
+    document.body.classList.toggle('motion-off',!state.settings.motion);
+    $('resetGameBtn').disabled=game.phase==='running'||game.phase==='paused';
+    $('resetDeckBtn').disabled=game.phase==='running'||game.phase==='paused';
+  }
+  function renderStage(){
+    var playing=game.phase==='running'||game.phase==='paused';
+    var hasEnd=game.phase==='ended';
+    var t=currentTeam();
+    el.team.textContent=(playing?'本轮 · ':hasEnd?'完成 · ':'下一组 · ')+(t?t.name:'');
+    el.status.textContent=game.phase==='running'?'● LIVE PLAYING':game.phase==='paused'?'Ⅱ PAUSED':hasEnd?'ROUND COMPLETE':'READY TO PLAY';
+    el.status.className='state-tag '+(game.phase==='running'?'live':game.phase==='paused'?'paused':'');
+    el.category.textContent=game.current&&playing?game.current.label+' · 随机出题':poolLabel()+' · 随机出题';
+    el.kicker.textContent=game.phase==='running'?'ACT IT. DON’T SAY IT.':game.phase==='paused'?'TAKE A BREATH':hasEnd?'GOOD GAME, WELL PLAYED':'READY · SET · ACT';
+    el.word.textContent=playing?(game.hidden?'🙈':game.current?game.current.word:'—'):hasEnd?'本轮结束！':'准备开演！';
+    el.wordSub.textContent=game.phase==='running'?(game.hidden?'题目已隐藏，点击「显示题目」继续':'只能做动作，不能说出词语哦！'):game.phase==='paused'?'计时已暂停，准备好再继续':hasEnd?'看看成绩，让下一组接力！':'先设置队伍和规则，再开始你的第一轮';
+    $('miniCorrect').textContent=game.correct;$('miniSkip').textContent=game.skipped;$('miniPoints').textContent=(game.delta>=0?'+':'')+game.delta;
+    $('startBtn').hidden=playing;$('startBtn').textContent=hasEnd?'✦ 下一组，准备上场 →':'✦ 开始本轮挑战 →';
+    ['correctBtn','skipBtn','pauseBtn','hideBtn','endBtn'].forEach(function(id){$(id).hidden=!playing});
+    $('correctBtn').disabled=game.phase!=='running';$('skipBtn').disabled=game.phase!=='running';
+    $('pauseBtn').textContent=game.phase==='paused'?'▶ 继续计时 (P)':'Ⅱ 暂停计时 (P)';
+    $('hideBtn').textContent=game.hidden?'◉ 显示题目 (H)':'◉ 隐藏题目 (H)';
+    $('roundSummary').hidden=!hasEnd;
+    if(hasEnd){$('summaryTitle').textContent=(t?t.name:'本组')+' · 本轮完成';$('summaryDesc').textContent='答对 '+game.correct+' 题 · 跳过 '+game.skipped+' 题';$('summaryScore').textContent=(game.delta>=0?'+':'')+game.delta}
+    updateClock();
+  }
+  function renderAll(){renderTeams();renderRanking();renderSettings();renderStage()}
+  function animateWord(){if(!state.settings.motion)return;el.shell.classList.remove('word-pop');void el.shell.offsetWidth;el.shell.classList.add('word-pop')}
+  function updateClock(){
+    var s=Math.max(0,Math.ceil(game.remaining/1000));
+    el.number.textContent=s;
+    var pct=Math.max(0,Math.min(1,game.remaining/(state.settings.duration*1000)));
+    el.progress.style.strokeDashoffset=String(289.03*(1-pct));
+    el.ring.classList.toggle('urgent',game.phase==='running'&&s<=10);
+    if(game.phase==='running'&&s<=10&&s>0&&s!==updateClock.lastSound){updateClock.lastSound=s;if(s<=3)tone('tick')}
+  }
+  function startTimer(){clearInterval(game.timerId);game.deadline=Date.now()+game.remaining;game.timerId=setInterval(function(){game.remaining=Math.max(0,game.deadline-Date.now());updateClock();if(game.remaining<=0)finishRound('time')},80)}
+  function draw(){
+    var choices=available();
+    if(!choices.length){game.current=null;return false}
+    var card=choices[Math.floor(Math.random()*choices.length)];
+    game.current=card;game.hidden=false;state.used.push(card.id);save();
+    animateWord();return true;
+  }
+  function startRound(){
+    if(game.phase==='running'||game.phase==='paused')return;
+    if(!available().length){notify('该词库已经抽完啦！请重置已抽词语，或切换题库。');return}
+    game.phase='running';game.teamId=state.teams[state.nextIndex].id;game.correct=0;game.skipped=0;game.delta=0;game.remaining=state.settings.duration*1000;game.current=null;game.hidden=false;updateClock.lastSound=-1;
+    draw();renderAll();animateWord();tone('start');startTimer();
+    if(window.innerWidth<780)$('stage').scrollIntoView({behavior:state.settings.motion?'smooth':'auto',block:'center'});
+  }
+  function action(correct){
+    if(game.phase!=='running'||!game.current)return;
+    var t=teamById(game.teamId);
+    if(correct){game.correct++;game.delta+=state.settings.correctPoints;t.score+=state.settings.correctPoints;tone('correct');burst(16)}
+    else{game.skipped++;game.delta-=state.settings.skipPenalty;t.score-=state.settings.skipPenalty;tone('skip')}
+    if(!draw()){finishRound('exhausted');return}
+    save();renderRanking();renderSettings();renderStage();
+  }
+  function pauseRound(){
+    if(game.phase==='running'){game.remaining=Math.max(0,game.deadline-Date.now());clearInterval(game.timerId);game.phase='paused'}
+    else if(game.phase==='paused'){game.phase='running';startTimer()}
+    renderAll();
+  }
+  function finishRound(reason){
+    if(game.phase!=='running'&&game.phase!=='paused')return;
+    clearInterval(game.timerId);
+    if(reason==='time')game.remaining=0;
+    game.phase='ended';state.completed++;
+    var t=teamById(game.teamId);
+    state.history.push({teamName:t?t.name:'队伍',teamId:game.teamId,correct:game.correct,skipped:game.skipped,delta:game.delta,time:Date.now()});
+    state.history=state.history.slice(-100);
+    var idx=state.teams.findIndex(function(x){return x.id===game.teamId});
+    state.nextIndex=(idx+1)%state.teams.length;
+    save();renderAll();tone('finish');burst(100);
+    if(reason==='exhausted')notify('词库已抽完，本轮提前结算。');
+    else if(reason==='time')notify('时间到！本轮成绩已自动计入排行榜。');
+    else notify('本轮成绩已保存，下一组准备上场！');
+  }
+  var audioContext;
+  function tone(type){
+    if(!state.settings.sound)return;
+    try{
+      var AudioCtor=window.AudioContext||window.webkitAudioContext;if(!AudioCtor)return;
+      audioContext=audioContext||new AudioCtor();
+      if(audioContext.state==='suspended')audioContext.resume();
+      var now=audioContext.currentTime;var pitches=type==='correct'?[580,780]:type==='finish'?[420,590,840]:type==='skip'?[250]:type==='tick'?[410]:[440,620];
+      pitches.forEach(function(p,i){var osc=audioContext.createOscillator();var gain=audioContext.createGain();osc.type=type==='skip'?'triangle':'sine';osc.frequency.setValueAtTime(p,now+i*.095);gain.gain.setValueAtTime(.0001,now+i*.095);gain.gain.exponentialRampToValueAtTime(.105,now+i*.095+.01);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.095+.15);osc.connect(gain);gain.connect(audioContext.destination);osc.start(now+i*.095);osc.stop(now+i*.095+.17)})
+    }catch(e){/* No audio output available. */}
+  }
+  var canvas=$('confetti'),ctx=canvas.getContext('2d'),particles=[],frameId=0;
+  function burst(n){
+    if(!state.settings.motion||window.matchMedia('(prefers-reduced-motion: reduce)').matches||!ctx)return;
+    canvas.width=window.innerWidth*devicePixelRatio;canvas.height=window.innerHeight*devicePixelRatio;
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    for(var i=0;i<n;i++){particles.push({x:innerWidth*(.3+Math.random()*.4),y:innerHeight*(.25+Math.random()*.22),vx:(Math.random()-.5)*12,vy:-3-Math.random()*7,gravity:.14+Math.random()*.14,life:55+Math.random()*45,size:3+Math.random()*7,spin:Math.random()*6.28,color:COLORS[Math.floor(Math.random()*COLORS.length)]})}
+    if(!frameId)frameId=requestAnimationFrame(paintParticles);
+  }
+  function paintParticles(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    particles=particles.filter(function(p){p.life--;p.x+=p.vx;p.y+=p.vy;p.vy+=p.gravity;p.vx*=.994;p.spin+=.09;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.spin);ctx.globalAlpha=Math.min(1,p.life/28);ctx.fillStyle=p.color;ctx.fillRect(-p.size/2,-p.size/3,p.size,p.size*.7);ctx.restore();return p.life>0});
+    frameId=particles.length?requestAnimationFrame(paintParticles):0;
+  }
+  function openWords(){if(game.phase==='running'||game.phase==='paused')return;$('wordsModal').hidden=false;renderCustom();$('customInput').focus()}
+  function closeWords(){$('wordsModal').hidden=true;$('manageWordsBtn').focus()}
+  function renderCustom(){
+    $('customCount').textContent='已添加 '+state.custom.length+' / 150 题';
+    $('customChips').innerHTML=state.custom.length?state.custom.map(function(w,i){return '<span class="custom-chip">'+esc(w)+' <button type="button" aria-label="删除 '+esc(w)+'" data-delword="'+i+'">×</button></span>'}).join(''):'<span class="small-caption">还没有自定义词语，先添加一些专属热梗吧。</span>';
+  }
+  function addCustom(){
+    var chunks=$('customInput').value.split(/[\n,，、;；]+/).map(function(s){return s.trim().slice(0,18)}).filter(Boolean);
+    var added=0;var known=new Set(state.custom);
+    chunks.forEach(function(w){if(state.custom.length>=150||known.has(w))return;known.add(w);state.custom.push(w);added++});
+    $('customInput').value='';save();renderCustom();renderSettings();notify(added?'成功添加 '+added+' 个词语！':'没有新词语，或已经达到 150 题上限。');
+  }
+  function csvExport(){
+    var rows=[['排名','队伍','总分','已完成回合'],...state.teams.slice().sort(function(a,b){return b.score-a.score}).map(function(t,i){return[i+1,t.name,t.score,state.history.filter(function(h){return h.teamId===t.id}).length]})];
+    var csv='\ufeff'+rows.map(function(row){return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');
+    var url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));var a=document.createElement('a');a.href=url;a.download='HKUST-CDA-ActNGuess-results.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);notify('排行榜已导出为 CSV！');
+  }
+  el.teams.addEventListener('click',function(e){
+    var pick=e.target.closest('[data-pick]'),remove=e.target.closest('[data-remove]');
+    if(game.phase==='running'||game.phase==='paused')return;
+    if(pick){state.nextIndex=state.teams.findIndex(function(t){return t.id===pick.dataset.pick});save();renderTeams();renderStage()}
+    if(remove){if(state.teams.length<=1){notify('至少需要保留一支队伍。');return}var id=remove.dataset.remove;state.teams=state.teams.filter(function(t){return t.id!==id});state.nextIndex=Math.min(state.nextIndex,state.teams.length-1);save();renderAll()}
+  });
+  el.teams.addEventListener('change',function(e){if(!e.target.matches('[data-rename]'))return;var t=teamById(e.target.dataset.rename);if(t){t.name=e.target.value.trim().slice(0,24)||'未命名队伍';save();renderAll()}});
+  $('addTeamBtn').addEventListener('click',function(){if(state.teams.length>=20){notify('最多可以添加 20 支队伍。');return}var n=state.teams.length+1;state.teams.push({id:'t'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:'第'+n+'组',score:0,color:(n-1)%COLORS.length});save();renderAll()});
+  $('poolOptions').addEventListener('click',function(e){var b=e.target.closest('[data-pool]');if(!b||game.phase==='running'||game.phase==='paused')return;state.settings.pool=b.dataset.pool;save();renderAll()});
+  $('timePresets').addEventListener('click',function(e){var b=e.target.closest('[data-secs]');if(!b||game.phase==='running'||game.phase==='paused')return;state.settings.duration=Number(b.dataset.secs);game.remaining=state.settings.duration*1000;save();renderAll()});
+  $('durationInput').addEventListener('change',function(){state.settings.duration=limit(this.value,15,300,60);game.remaining=state.settings.duration*1000;save();renderAll()});
+  ['correctPoints','skipPenalty'].forEach(function(id){$(id).addEventListener('change',function(){state.settings[id]=limit(this.value,id==='correctPoints'?1:0,10,id==='correctPoints'?1:0);save();renderAll()})});
+  $('soundToggle').addEventListener('change',function(e){state.settings.sound=e.target.checked;save()});
+  $('motionToggle').addEventListener('change',function(e){state.settings.motion=e.target.checked;save();renderSettings()});
+  $('startBtn').addEventListener('click',startRound);$('correctBtn').addEventListener('click',function(){action(true)});$('skipBtn').addEventListener('click',function(){action(false)});$('pauseBtn').addEventListener('click',pauseRound);$('hideBtn').addEventListener('click',function(){game.hidden=!game.hidden;renderStage()});$('endBtn').addEventListener('click',function(){finishRound('manual')});
+  $('manageWordsBtn').addEventListener('click',openWords);$('closeWordsBtn').addEventListener('click',closeWords);$('wordsModal').addEventListener('click',function(e){if(e.target===$('wordsModal'))closeWords()});$('addWordsBtn').addEventListener('click',addCustom);$('customChips').addEventListener('click',function(e){var b=e.target.closest('[data-delword]');if(!b)return;var w=state.custom[Number(b.dataset.delword)];state.custom.splice(Number(b.dataset.delword),1);state.used=state.used.filter(function(id){return id!=='u:'+w});save();renderCustom();renderSettings()});
+  $('resetDeckBtn').addEventListener('click',function(){if(!confirm('重置抽题进度？已使用的词语将重新加入题库，队伍分数保持不变。'))return;state.used=[];save();renderAll();notify('抽题进度已重置。')});
+  $('resetGameBtn').addEventListener('click',function(){if(!confirm('确定重置整场比赛？所有队伍积分和比赛记录都将归零，队伍名称与自定义词库会保留。'))return;state.teams.forEach(function(t){t.score=0});state.completed=0;state.history=[];state.used=[];state.nextIndex=0;game.phase='idle';game.teamId=null;game.correct=game.skipped=game.delta=0;game.current=null;game.remaining=state.settings.duration*1000;save();renderAll();notify('比赛已重置，准备迎接新挑战！')});
+  $('exportBtn').addEventListener('click',csvExport);
+  $('fullscreenBtn').addEventListener('click',function(){if(!document.fullscreenEnabled){notify('当前浏览器不支持网页全屏，可使用系统投屏。');return}if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen().catch(function(){notify('全屏未开启，请检查浏览器权限。')})});
+  document.addEventListener('fullscreenchange',function(){$('fullscreenBtn').textContent=document.fullscreenElement?'⛶ 退出全屏':'⛶ 全屏模式'});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&!$('wordsModal').hidden){closeWords();return}
+    if(!$('wordsModal').hidden||e.ctrlKey||e.altKey||e.metaKey||e.target.closest('input, textarea, button, [contenteditable]'))return;
+    if(game.phase!=='running'&&game.phase!=='paused')return;
+    if(e.code==='Space'||e.key==='Enter'){e.preventDefault();action(true)}
+    else if(e.key==='ArrowRight'){e.preventDefault();action(false)}
+    else if(e.key.toLowerCase()==='p'){e.preventDefault();pauseRound()}
+    else if(e.key.toLowerCase()==='h'){e.preventDefault();game.hidden=!game.hidden;renderStage()}
+  });
+  window.addEventListener('pagehide',save);
+  renderAll();
+})();
+</script>
+</body>
+</html>
