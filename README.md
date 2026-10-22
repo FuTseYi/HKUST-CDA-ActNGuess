@@ -61,7 +61,9 @@ Create application → Pages → Import repository，连接本仓库；Framework
 ```
 .
 ├── index.html     # 完整单文件网页（HTML + CSS + JavaScript）
-├── favicon.svg    # 品牌图标
+├── assets/
+│   └── cda-logo.png  # 从协会定稿 PDF 提取的官方 Logo（网页页眉与 favicon）
+├── favicon.svg    # 原始站点图标（保留备用）
 ├── .nojekyll      # GitHub Pages 兼容
 └── README.md
 ```
@@ -71,3 +73,7 @@ Create application → Pages → Import repository，连接本仓库；Framework
 不需要账号、Cookie 或第三方统计。游戏数据仅在本机浏览器保存；清理浏览器站点数据会清空进度。
 
 MIT License · 项目为校园活动游戏，不代表学校官方产品。
+
+## 品牌 Logo
+
+页面顶部与浏览器图标使用协会提供的 CorelDRAW 定稿 PDF 中的原始图案进行透明背景提取，未重新设计或改动官方标志。
