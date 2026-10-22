@@ -9,7 +9,7 @@
 - **双主题词库**：港科广校园 35 题 + 职业发展协会 35 题；另可添加自定义词语。
 - **多人分组**：自由添加、删除、重命名队伍；自动轮流出场，也能手动指定下一组。
 - **自定义赛制**：每轮 15–300 秒；每题得分、跳过扣分、题库、音效和特效自由设置。
-- **现场计分**：答对 / 跳过即时记录，倒计时结束自动结算回合，实时排行榜。
+- **现场计分**：答对 / 跳过即时记录，显示各队累计答对数与得分，倒计时结束自动结算，实时排行榜，可导出 CSV。
 - **随机不重复**：已抽取词语本场比赛不重复；抽完后可由主持人主动重置词库。
 - **漂亮动效**：翻牌切换、计时进度环、粒子彩纸和微动效；支持减少动态效果。
 - **响应式与投影**：手机、平板、大屏均可使用，游戏界面支持全屏。
@@ -30,7 +30,7 @@
 
 ### Cloudflare Pages
 
-Create application → Pages → Import repository，连接本仓库；Framework preset 选 **None**，Build command **留空**，Output directory 填 **/**（以平台实际支持的根目录静态部署选项为准）。
+Create application → Pages → Import repository，连接本仓库；Framework preset 选 **None**，Build command 填 **`exit 0`**，Build output directory 指向仓库根目录 **`.`**（即包含 `index.html` 的目录）。
 
 ### Vercel
 
